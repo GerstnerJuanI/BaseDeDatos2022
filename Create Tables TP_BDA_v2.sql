@@ -21,7 +21,7 @@ CREATE TABLE Pedido (
 	fyh_fin DATETIME2 GENERATED ALWAYS AS ROW END NOT NULL,
 	tiempo_demora_max INT,
 	nivel INT NOT NULL,
-	estado BIT NOT NULL,
+	estado INT NOT NULL,
 	PERIOD FOR SYSTEM_TIME (fyh_inicio, fyh_fin),
 	CONSTRAINT PK_Pedido PRIMARY KEY CLUSTERED (numero)
 )
@@ -31,11 +31,11 @@ WITH (SYSTEM_VERSIONING = ON (HISTORY_TABLE = dbo.Pedido_Historia));
 --ALTER TABLE Pedido ADD estado BIT NOT NULL
 --ALTER TABLE Pedido SET (SYSTEM_VERSIONING = OFF)
 --SELECT * FROM Pedido_Historia
-DROP TABLE Pedido_Delivery
-DROP TABLE Pedido_Salon
-DROP TABLE Pedido
-DROP Table Producto_Pedido
-SELECT * FROM Cuenta
+--DROP TABLE Pedido_Delivery
+--DROP TABLE Pedido_Salon
+--DROP TABLE Pedido
+--DROP Table Producto_Pedido
+--SELECT * FROM Cuenta
 
 
 CREATE TABLE Pedido_Delivery (
@@ -78,22 +78,6 @@ CREATE TABLE Producto_Pedido (
 	CONSTRAINT FK_ProductoPedido_Pedido FOREIGN KEY (numero_pedido) REFERENCES Pedido (numero) ON UPDATE CASCADE ON DELETE CASCADE,
 	CONSTRAINT FK_ProductoPedido_Producto FOREIGN KEY (codigo_producto) REFERENCES Producto (codigo) ON UPDATE CASCADE ON DELETE CASCADE,
 )
-
---Funciones y disparadores:
--- Nivel 1: El pedido ha superado el tiempo de preparación asignado.
--- Nivel 2: falta un 20% del tiempo para que se cumpla el tiempo de preparación.
--- Nivel 3: Pedidos no incluídos en los niveles anteriores.
-create function f_nro_pedidos (@nro_pedido int)
- returns int
- as
- begin 
-   declare @nivel int
-	if select   fyh_inicio into @fyh, tiempo_demora_max from 
-   --set @nivel=(@valor1+@valor2)/2
-   return @nivel
- end;
-
---DROP FUNCTION f_promedio
 
 
 
